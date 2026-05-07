@@ -1,5 +1,5 @@
 
-# Mini Claw Runtime v3
+# Mini Claw Runtime
 
 A more realistic local-first agent runtime inspired by:
 - Claw
