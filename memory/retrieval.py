@@ -1,24 +1,22 @@
-
 from pathlib import Path
-
 
 class RetrievalEngine:
 
     @staticmethod
     def retrieve(query):
 
-        snippets = []
+        chunks = []
 
-        for path in Path(".").glob("*.md"):
+        for path in Path(".").rglob("*.py"):
 
             try:
-                text = path.read_text()[:1000]
+                text = path.read_text()[:500]
 
-                snippets.append(
-                    f"FILE: {path.name}\n{text}"
+                chunks.append(
+                    f"FILE: {path}\n{text}"
                 )
 
             except:
                 pass
 
-        return "\n\n".join(snippets[:3])
+        return "\n\n".join(chunks[:5])

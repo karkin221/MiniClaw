@@ -1,6 +1,4 @@
-
 from openai import OpenAI
-
 
 class OllamaClient:
 
@@ -13,11 +11,7 @@ class OllamaClient:
             api_key="ollama"
         )
 
-    def generate(
-        self,
-        messages,
-        tools
-    ):
+    def generate(self, messages, tools):
 
         stream = self.client.chat.completions.create(
             model=self.model,
@@ -27,8 +21,8 @@ class OllamaClient:
             temperature=0
         )
 
-        final_tool_calls = None
         final_text = ""
+        final_tool_calls = []
 
         for chunk in stream:
 
@@ -39,7 +33,7 @@ class OllamaClient:
                 final_text += delta.content
 
             if delta.tool_calls:
-                final_tool_calls = delta.tool_calls
+                final_tool_calls.extend(delta.tool_calls)
 
         print()
 

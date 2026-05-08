@@ -1,8 +1,13 @@
-
 class PolicyEngine:
 
     ALLOWED_TOOLS = [
-        "list_files"
+        "list_files",
+        "read_file",
+        "search_codebase",
+        "write_file",
+        "run_python",
+        "inspect_architecture",
+        "grep_text"
     ]
 
     @classmethod
@@ -10,8 +15,10 @@ class PolicyEngine:
 
         if response["type"] == "tool_call":
 
-            if response["tool"] not in cls.ALLOWED_TOOLS:
+            tool = response["tool"]
 
-                return False, "Blocked tool"
+            if tool not in cls.ALLOWED_TOOLS:
+
+                return False, f"Blocked tool: {tool}"
 
         return True, None

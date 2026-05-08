@@ -1,11 +1,23 @@
-
-from tools.filesystem import list_files
-
+from tools.filesystem import (
+    list_files,
+    read_file,
+    search_codebase,
+    write_file,
+    run_python,
+    inspect_architecture,
+    grep_text
+)
 
 class ToolRouter:
 
     TOOLS = {
-        "list_files": list_files
+        "list_files": list_files,
+        "read_file": read_file,
+        "search_codebase": search_codebase,
+        "write_file": write_file,
+        "run_python": run_python,
+        "inspect_architecture": inspect_architecture,
+        "grep_text": grep_text
     }
 
     @classmethod
@@ -20,12 +32,13 @@ class ToolRouter:
             {
                 "type": "function",
                 "function": {
-                    "name": "list_files",
-                    "description": "List files in current directory",
+                    "name": name,
+                    "description": f"Tool: {name}",
                     "parameters": {
                         "type": "object",
                         "properties": {}
                     }
                 }
             }
+            for name in cls.TOOLS.keys()
         ]

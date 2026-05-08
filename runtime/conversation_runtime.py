@@ -1,4 +1,3 @@
-
 from rich import print
 
 from context.builder import ContextBuilder
@@ -15,9 +14,7 @@ class ConversationRuntime:
 
         self.messages = []
 
-        self.model_client = OllamaClient(
-            model=model
-        )
+        self.model_client = OllamaClient(model=model)
 
         EventStore.init()
 
@@ -58,9 +55,7 @@ class ConversationRuntime:
             response
         )
 
-        ok, error = PolicyEngine.validate(
-            response
-        )
+        ok, error = PolicyEngine.validate(response)
 
         if not ok:
 
@@ -83,7 +78,10 @@ class ConversationRuntime:
 
             EventStore.emit(
                 "ToolCompleted",
-                result
+                {
+                    "tool": tool_name,
+                    "result": str(result)[:1000]
+                }
             )
 
             print("\n[bold yellow]Tool Result[/bold yellow]")
@@ -107,12 +105,14 @@ class ConversationRuntime:
 
         return True
 
-    def run(self, max_steps=5):
+    def run(self, max_steps=10):
 
         done = False
         steps = 0
 
         while not done and steps < max_steps:
+
+            print(f"\n[bold cyan]===== STEP {steps+1} =====[/bold cyan]")
 
             done = self.step()
 
