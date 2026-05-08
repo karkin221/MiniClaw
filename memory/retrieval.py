@@ -1,3 +1,4 @@
+
 from pathlib import Path
 
 class RetrievalEngine:
@@ -10,6 +11,7 @@ class RetrievalEngine:
         for path in Path(".").rglob("*.py"):
 
             try:
+
                 text = path.read_text()[:500]
 
                 chunks.append(

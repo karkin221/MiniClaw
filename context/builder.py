@@ -1,9 +1,19 @@
+
 class ContextBuilder:
 
     SYSTEM_PROMPT = '''
-You are a coding agent.
+You are a local coding agent.
 
-Use tools aggressively:
+Use tools aggressively.
+
+Suggested workflow:
+1. inspect repository
+2. list files
+3. read important files
+4. inspect architecture
+5. summarize findings
+
+Available tools:
 - list_files
 - read_file
 - search_codebase
@@ -12,11 +22,7 @@ Use tools aggressively:
 - write_file
 - run_python
 
-Workflow:
-1. inspect repo
-2. read docs
-3. inspect architecture
-4. explain findings
+Be concise and technical.
 '''
 
     @classmethod
@@ -25,11 +31,11 @@ Workflow:
         system = cls.SYSTEM_PROMPT
 
         if retrieved:
-            system += "\n\nRetrieved:\n" + retrieved
+            system += "\n\nRetrieved Context:\n" + retrieved
 
         return [
             {
                 "role": "system",
                 "content": system
             }
-        ] + messages[-15:]
+        ] + messages[-20:]

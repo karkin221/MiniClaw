@@ -1,4 +1,8 @@
+
 from openai import OpenAI
+from rich.console import Console
+
+console = Console()
 
 class OllamaClient:
 
@@ -29,10 +33,13 @@ class OllamaClient:
             delta = chunk.choices[0].delta
 
             if delta.content:
-                print(delta.content, end="", flush=True)
+
+                console.print(delta.content, end="")
+
                 final_text += delta.content
 
             if delta.tool_calls:
+
                 final_tool_calls.extend(delta.tool_calls)
 
         print()

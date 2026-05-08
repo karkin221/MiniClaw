@@ -1,3 +1,4 @@
+
 from tools.filesystem import (
     list_files,
     read_file,
@@ -28,8 +29,11 @@ class ToolRouter:
     @classmethod
     def tool_schemas(cls):
 
-        return [
-            {
+        schemas = []
+
+        for name in cls.TOOLS.keys():
+
+            schema = {
                 "type": "function",
                 "function": {
                     "name": name,
@@ -40,5 +44,19 @@ class ToolRouter:
                     }
                 }
             }
-            for name in cls.TOOLS.keys()
-        ]
+
+            if name == "read_file":
+
+                schema["function"]["parameters"] = {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["path"]
+                }
+
+            schemas.append(schema)
+
+        return schemas
